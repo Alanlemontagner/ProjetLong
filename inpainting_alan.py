@@ -24,6 +24,8 @@ from keras.layers import Dense
 from keras.models import load_model
 import numpy as np
 import numpy.ma as ma
+import pylab
+import matplotlib as mpl
 
 #%% mask
 def masked_mse(y_true,y_pred):
@@ -153,52 +155,51 @@ ytrain = np.reshape(ytrain, (ytrain.shape[0], 64, 64,1))
 ytest = np.reshape(ytest, (ytest.shape[0], 64, 64,1))
 
 #%%
-#Test with no hole
-model = get_model()
-model.fit(ytrain, ytrain, epochs=40,batch_size=10,shuffle=True)
+#Test with no hole. Uncomment to make it work
+#model = get_model()
+#model.fit(ytrain, ytrain, epochs=40,batch_size=10,shuffle=True)
 
-Outputs = model.predict(ytest)
-Outputs = Outputs.reshape(Outputs.shape[0],64,64)
+#Outputs = model.predict(ytest)
+#Outputs = Outputs.reshape(Outputs.shape[0],64,64)
 
-plt.figure()
-plt.imshow(xtest[1,:,:,0],vmin=-2.5+3, vmax=2.5+3, cmap='jet')
-plt.colorbar()
+#plt.figure()
+#plt.imshow(xtest[1,:,:,0],vmin=-2.5+3, vmax=2.5+3, cmap='jet')
+#plt.colorbar()
 
-plt.figure()
-plt.imshow(Outputs[1])
-plt.colorbar()
+#plt.figure()
+#plt.imshow(Outputs[1])
+#plt.colorbar()
 
 #%%
 #Test with one hole
-model = get_model()
-model.fit(xtrain, ytrain, epochs=40,batch_size=10,shuffle=True)
+#model = get_model()
+#model.fit(xtrain, ytrain, epochs=40,batch_size=10,shuffle=True)
 
-Outputs = model.predict(xtest)
-Outputs = Outputs.reshape(Outputs.shape[0],64,64)
+#Outputs = model.predict(xtest)
+#Outputs = Outputs.reshape(Outputs.shape[0],64,64)
 
-plt.figure()
-plt.imshow(xtest[1,:,:,0])
-plt.colorbar()
+#plt.figure()
+#plt.imshow(xtest[1,:,:,0])
+#plt.colorbar()
 
-plt.figure()
-plt.imshow(Outputs[1])
-plt.colorbar()
+#plt.figure()
+#plt.imshow(Outputs[1])
+#plt.colorbar()
 
-plt.figure()
-plt.imshow(ytest[1,:,:,0])
-plt.colorbar()
+#plt.figure()
+#plt.imshow(ytest[1,:,:,0])
+#plt.colorbar()
 
 #%%
 #Function to do multiple holes in the image
 #Needs upgrade for different holes
-import matplotlib as m
 cdict = {
   'red'  :  ( (0.0, 0.25, .25), (0.02, .59, .59), (1., 1., 1.)),
   'green':  ( (0.0, 0.0, 0.0), (0.02, .45, .45), (1., .97, .97)),
   'blue' :  ( (0.0, 1.0, 1.0), (0.02, .75, .75), (1., 0.45, 0.45))
 }
 
-cm = m.colors.LinearSegmentedColormap('my_colormap', cdict, 1024)
+cm = mpl.colors.LinearSegmentedColormap('my_colormap', cdict, 1024)
 
 def multipleholes(image, sizes, number):
     zero=np.zeros((344*3,64,64))
@@ -229,51 +230,50 @@ def imgx3(images):
 Images=imgx3(Images_1)
 
 #%%Tests
-import pylab
-Multiple_test=multipleholes(Images_1, [1,10], 100)
-plt.figure()
-plt.imshow(Multiple_test[0]*stds[0]+means[0]-3, cmap='seismic',vmin=19,vmax=23)
-plt.xlabel('p')
-plt.ylabel('p')
-cbar=plt.colorbar()
-cbar.set_label('Temperature', rotation=270)
+#Multiple_test=multipleholes(Images_1, [1,10], 100)
+#plt.figure()
+#plt.imshow(Multiple_test[0]*stds[0]+means[0]-3, cmap='seismic',vmin=19,vmax=23)
+#plt.xlabel('p')
+#plt.ylabel('p')
+#cbar=plt.colorbar()
+#cbar.set_label('Temperature', rotation=270)
 
-plt.figure()
-plt.imshow(Multiple_test[344]*stds[0]+means[0]-3, cmap='seismic',vmin=19,vmax=23)
-plt.colorbar()
+#plt.figure()
+#plt.imshow(Multiple_test[344]*stds[0]+means[0]-3, cmap='seismic',vmin=19,vmax=23)
+#plt.colorbar()
 
-plt.figure()
-plt.imshow(Multiple_test[344*2]*stds[0]+means[0]-3, cmap='seismic',vmin=19,vmax=23)
-plt.colorbar()
+#plt.figure()
+#plt.imshow(Multiple_test[344*2]*stds[0]+means[0]-3, cmap='seismic',vmin=19,vmax=23)
+#plt.colorbar()
 
 #%%
 #Test with multiple holes
-x_train, xtest, y_train, ytest = train_test_split(Multiple, Images, test_size=0.2)
-xtrain, xval, ytrain, yval = train_test_split(x_train, y_train, test_size=0.2)
-xtrain = np.reshape(xtrain, (xtrain.shape[0], 64, 64,1))
-xtest = np.reshape(xtest, (xtest.shape[0], 64, 64,1))
-xval = np.reshape(xval, (xval.shape[0], 64, 64,1))
-ytrain = np.reshape(ytrain, (ytrain.shape[0], 64, 64,1))
-ytest = np.reshape(ytest, (ytest.shape[0], 64, 64,1))
-yval = np.reshape(yval, (yval.shape[0], 64, 64,1))
+#x_train, xtest, y_train, ytest = train_test_split(Multiple, Images, test_size=0.2)
+#xtrain, xval, ytrain, yval = train_test_split(x_train, y_train, test_size=0.2)
+#xtrain = np.reshape(xtrain, (xtrain.shape[0], 64, 64,1))
+#xtest = np.reshape(xtest, (xtest.shape[0], 64, 64,1))
+#xval = np.reshape(xval, (xval.shape[0], 64, 64,1))
+#ytrain = np.reshape(ytrain, (ytrain.shape[0], 64, 64,1))
+#ytest = np.reshape(ytest, (ytest.shape[0], 64, 64,1))
+#yval = np.reshape(yval, (yval.shape[0], 64, 64,1))
 
-model = get_model()
-model.fit(xtrain, ytrain, epochs=40,batch_size=16,shuffle=True,validation_data=(xval, yval))
+#model = get_model()
+#model.fit(xtrain, ytrain, epochs=40,batch_size=16,shuffle=True,validation_data=(xval, yval))
 
-Outputs = model.predict(xtest)
-Outputs = Outputs.reshape(Outputs.shape[0],64,64)
+#Outputs = model.predict(xtest)
+#Outputs = Outputs.reshape(Outputs.shape[0],64,64)
 
-plt.figure()
-plt.imshow(xtest[7,:,:,0])
-plt.colorbar()
+#plt.figure()
+#plt.imshow(xtest[7,:,:,0])
+#plt.colorbar()
 
-plt.figure()
-plt.imshow(Outputs[7,:,:,0])
-plt.colorbar()
+#plt.figure()
+#plt.imshow(Outputs[7,:,:,0])
+#plt.colorbar()
 
-plt.figure()
-plt.imshow(ytest[7,:,:,0])
-plt.colorbar()
+#plt.figure()
+#plt.imshow(ytest[7,:,:,0])
+#plt.colorbar()
 
 #%%
 #Discriminator model
@@ -312,35 +312,35 @@ def get_discriminator():
 
 #%%
 #Test of the discriminator model
-Input_test=np.ones((Outputs.shape[0],64,64,2))
-Output_wished=np.ones(Outputs.shape[0])
-ytest=np.reshape(ytest, (ytest.shape[0],64,64))
-for i in range(Outputs.shape[0]):
-    a=random.randint(0,1)
-    if (a==1):
-        Input_test[i,:,:,0]=Outputs[i].copy()
-        Input_test[i,:,:,1]=ytest[i].copy()
-    else:
-        Input_test[i,:,:,1]=Outputs[i].copy()
-        Input_test[i,:,:,0]=ytest[i].copy()
-    Output_wished[i]=a
+#Input_test=np.ones((Outputs.shape[0],64,64,2))
+#Output_wished=np.ones(Outputs.shape[0])
+#ytest=np.reshape(ytest, (ytest.shape[0],64,64))
+#for i in range(Outputs.shape[0]):
+#    a=random.randint(0,1)
+#    if (a==1):
+#        Input_test[i,:,:,0]=Outputs[i].copy()
+#        Input_test[i,:,:,1]=ytest[i].copy()
+#    else:
+#        Input_test[i,:,:,1]=Outputs[i].copy()
+#        Input_test[i,:,:,0]=ytest[i].copy()
+#    Output_wished[i]=a
 
-x_train2, xtest2, y_train2, ytest2 = train_test_split(Input_test, Output_wished, test_size=0.2)
-xtrain2, xval2, ytrain2, yval2 = train_test_split(x_train2, y_train2, test_size=0.2)
-xtrain2 = np.reshape(xtrain2, (xtrain2.shape[0], 64, 64, 2))
-xtest2 = np.reshape(xtest2, (xtest2.shape[0], 64, 64, 2))
-xval2 = np.reshape(xval2, (xval2.shape[0], 64, 64, 2))
-ytrain2 = np.reshape(ytrain2, (ytrain2.shape[0]))
-ytest2 = np.reshape(ytest2, (ytest2.shape[0]))
-yval2 = np.reshape(yval2, (yval2.shape[0]))
+#x_train2, xtest2, y_train2, ytest2 = train_test_split(Input_test, Output_wished, test_size=0.2)
+#xtrain2, xval2, ytrain2, yval2 = train_test_split(x_train2, y_train2, test_size=0.2)
+#xtrain2 = np.reshape(xtrain2, (xtrain2.shape[0], 64, 64, 2))
+#xtest2 = np.reshape(xtest2, (xtest2.shape[0], 64, 64, 2))
+#xval2 = np.reshape(xval2, (xval2.shape[0], 64, 64, 2))
+#ytrain2 = np.reshape(ytrain2, (ytrain2.shape[0]))
+#ytest2 = np.reshape(ytest2, (ytest2.shape[0]))
+#yval2 = np.reshape(yval2, (yval2.shape[0]))
        
     
-model2 = get_discriminator()
-model2.fit(xtrain2, ytrain2, epochs=40,batch_size=8,shuffle=True,validation_data=(xval2, yval2))
+#model2 = get_discriminator()
+#model2.fit(xtrain2, ytrain2, epochs=40,batch_size=8,shuffle=True,validation_data=(xval2, yval2))
 #model2.save("discriminator.h5")
 #model3=load_model("discriminator.h5")
 
-#%% Tests on masks
+#%% Masks
 def nearby_hole(y_true,y_pred,distance):
     mask=np.zeros((64,64))
     for i in range(64):
@@ -383,7 +383,6 @@ def penalized_loss(x,weight_hole=20,weight_ol=6):
 # dwgan
 
 
-import matplotlib as mpl
 
 # This line allows mpl to run with no DISPLAY defined
 mpl.use('Agg')
@@ -542,15 +541,15 @@ def example_aae(path, adversarial_optimizer):
     print(Outputs[0].shape)
     Outputs = Outputs[0].reshape(Outputs[0].shape[0],64,64)
 
-    plt.figure()
-    plt.imshow(xtest[1,:,:,0])
-    plt.colorbar()
-    plt.show()
+    #plt.figure()
+    #plt.imshow(xtest[1,:,:,0])
+    #plt.colorbar()
+    #plt.show()
 
-    plt.figure()
-    plt.imshow(Outputs[1,:,:])
-    plt.colorbar()
-    plt.show()
+    #plt.figure()
+    #plt.imshow(Outputs[1,:,:])
+    #plt.colorbar()
+    #plt.show()
 
     #plt.figure()
     #plt.imshow(ytest[0,1,:,:])
@@ -567,120 +566,120 @@ def main():
 #if __name__ == "__main__":
 #    main()
 
-#%%
-Means=np.zeros(344*3)
-Stds=np.zeros(344*3)
-for i in range(3):
-    for j in range(344):
-        Means[i*344+j]=means[j]
-        Stds[i*344+j]=stds[j]
+#%% Final tests and prints
+#Means=np.zeros(344*3)
+#Stds=np.zeros(344*3)
+#for i in range(3):
+#    for j in range(344):
+#        Means[i*344+j]=means[j]
+#        Stds[i*344+j]=stds[j]
         
 
 # load mnist data
-x_train, xtest, y_train, ytest, m_train, mtest, std_train, stdtest = train_test_split(Multiple, Images, Means, Stds, test_size=0.2)
-xtrain, xval, ytrain, yval, mtrain, mval, stdtrain, stdval = train_test_split(x_train, y_train, m_train, std_train, test_size=0.2)
+#x_train, xtest, y_train, ytest, m_train, mtest, std_train, stdtest = train_test_split(Multiple, Images, Means, Stds, test_size=0.2)
+#xtrain, xval, ytrain, yval, mtrain, mval, stdtrain, stdval = train_test_split(x_train, y_train, m_train, std_train, test_size=0.2)
     
-xtrain = np.reshape(xtrain, (xtrain.shape[0], 64, 64,1))
-xtest = np.reshape(xtest, (xtest.shape[0], 64, 64,1))
-ytrain = np.reshape(ytrain, (ytrain.shape[0], 64, 64,1))
-ytest = np.reshape(ytest, (ytest.shape[0], 64, 64,1))
-xval = np.reshape(xval, (xval.shape[0], 64, 64,1))
-yval = np.reshape(yval, (yval.shape[0], 64, 64,1))
+#xtrain = np.reshape(xtrain, (xtrain.shape[0], 64, 64,1))
+#xtest = np.reshape(xtest, (xtest.shape[0], 64, 64,1))
+#ytrain = np.reshape(ytrain, (ytrain.shape[0], 64, 64,1))
+#ytest = np.reshape(ytest, (ytest.shape[0], 64, 64,1))
+#xval = np.reshape(xval, (xval.shape[0], 64, 64,1))
+#yval = np.reshape(yval, (yval.shape[0], 64, 64,1))
 
-n = xtrain.shape[0]
-y = [ytrain, np.ones((n, 1)), ytrain, np.ones((n, 1))]
-nval = xval.shape[0]
-yval = [yval, np.ones((nval, 1)), yval, np.zeros((nval, 1))]
+#n = xtrain.shape[0]
+#y = [ytrain, np.ones((n, 1)), ytrain, np.ones((n, 1))]
+#nval = xval.shape[0]
+#yval = [yval, np.ones((nval, 1)), yval, np.zeros((nval, 1))]
 
 #%%
-(Hist, Out)=main()
+#(Hist, Out)=main()
 
 #%% Plots
-a=6
+#a=6
 
-plt.figure()
-plt.imshow(xtest[a,:,:,0]*stdtest[a]+mtest[a]-3,cmap='seismic',vmin=18,vmax=20.7)
-plt.xlabel('longitude')
-plt.ylabel('latitude')
-plt.colorbar()
-plt.show()
+#plt.figure()
+#plt.imshow(xtest[a,:,:,0]*stdtest[a]+mtest[a]-3,cmap='seismic',vmin=18,vmax=20.7)
+#plt.xlabel('longitude')
+#plt.ylabel('latitude')
+#plt.colorbar()
+#plt.show()
 
-plt.figure()
-plt.imshow(ytest[a,:,:,0]*stdtest[a]+mtest[a]-3,cmap='seismic')
-plt.xlabel('longitude')
-plt.ylabel('latitude')
-plt.colorbar()
-plt.show()
+#plt.figure()
+#plt.imshow(ytest[a,:,:,0]*stdtest[a]+mtest[a]-3,cmap='seismic')
+#plt.xlabel('longitude')
+#plt.ylabel('latitude')
+#plt.colorbar()
+#plt.show()
 
-plt.figure()
-plt.imshow(Out[a,:,:]*stdtest[a]+mtest[a]-3,cmap='seismic',vmin=18.5,vmax=21)
-plt.xlabel('longitude')
-plt.ylabel('latitude')
-plt.colorbar()
-plt.show()
+#plt.figure()
+#plt.imshow(Out[a,:,:]*stdtest[a]+mtest[a]-3,cmap='seismic',vmin=18.5,vmax=21)
+#plt.xlabel('longitude')
+#plt.ylabel('latitude')
+#plt.colorbar()
+#plt.show()
 
-Outcorr=Out.copy()
-for i in range(64):
-    for j in range(64):
-        if (xtest[a,i,j,0]!=0):
-            Outcorr[a,i,j]=ytest[a,i,j,0]
+#Outcorr=Out.copy()
+#for i in range(64):
+#    for j in range(64):
+#        if (xtest[a,i,j,0]!=0):
+#            Outcorr[a,i,j]=ytest[a,i,j,0]
 
-plt.figure()
-plt.imshow(Outcorr[a,:,:]*stdtest[a]+mtest[a]-3,cmap='seismic',vmin=18.5,vmax=21)
-plt.xlabel('longitude')
-plt.ylabel('latitude')
-plt.colorbar()
-plt.show()
+#plt.figure()
+#plt.imshow(Outcorr[a,:,:]*stdtest[a]+mtest[a]-3,cmap='seismic',vmin=18.5,vmax=21)
+#plt.xlabel('longitude')
+#plt.ylabel('latitude')
+#plt.colorbar()
+#plt.show()
 
 
 #%%% Errors
-a=7
+#a=7
 
-Outcorr=Out.copy()
-for i in range(64):
-    for j in range(64):
-        if (xtest[a,i,j,0]!=0):
-            Outcorr[a,i,j]=ytest[a,i,j,0]
+#Outcorr=Out.copy()
+#for i in range(64):
+#    for j in range(64):
+#        if (xtest[a,i,j,0]!=0):
+#            Outcorr[a,i,j]=ytest[a,i,j,0]
             
-plt.figure()
-plt.imshow(Outcorr[a,:,:]*stdtest[a]-ytest[a,:,:,0]*stdtest[a],cmap='seismic',vmin=-0.4,vmax=0.4)
-plt.xlabel('longitude')
-plt.ylabel('latitude')
-plt.colorbar()
-plt.show()
+#plt.figure()
+#plt.imshow(Outcorr[a,:,:]*stdtest[a]-ytest[a,:,:,0]*stdtest[a],cmap='seismic',vmin=-0.4,vmax=0.4)
+#plt.xlabel('longitude')
+#plt.ylabel('latitude')
+#plt.colorbar()
+#plt.show()
 
-plt.figure()
-plt.imshow(Out[a,:,:]*stdtest[a]-ytest[a,:,:,0]*stdtest[a],cmap='seismic',vmin=-0.4,vmax=0.4)
-plt.xlabel('longitude')
-plt.ylabel('latitude')
-plt.colorbar()
-plt.show()
+#plt.figure()
+#plt.imshow(Out[a,:,:]*stdtest[a]-ytest[a,:,:,0]*stdtest[a],cmap='seismic',vmin=-0.4,vmax=0.4)
+#plt.xlabel('longitude')
+#plt.ylabel('latitude')
+#plt.colorbar()
+#plt.show()
 
-plt.figure(figsize=(6,6)) 
-plt.scatter(Outcorr[a,:,:]*stdtest[a]+mtest[a]-3,ytest[a,:,:,0]*stdtest[a]+mtest[a]-3,s=10)
-plt.xlabel('real temperature')
-plt.ylabel('predicted temperature')
-plt.plot([18,20.5],[18,20.5])
-plt.show()
+#plt.figure(figsize=(6,6)) 
+#plt.scatter(Outcorr[a,:,:]*stdtest[a]+mtest[a]-3,ytest[a,:,:,0]*stdtest[a]+mtest[a]-3,s=10)
+#plt.xlabel('real temperature')
+#plt.ylabel('predicted temperature')
+#plt.plot([18,20.5],[18,20.5])
+#plt.show()
 
-plt.figure(figsize=(6,6)) 
-plt.scatter(Out[a,:,:]*stdtest[a]+mtest[a]-3,ytest[a,:,:,0]*stdtest[a]+mtest[a]-3,s=10)
-plt.xlabel('real temperature')
-plt.ylabel('predicted temperature')
-plt.plot([18,20.5],[18,20.5])
-plt.show()
+#plt.figure(figsize=(6,6)) 
+#plt.scatter(Out[a,:,:]*stdtest[a]+mtest[a]-3,ytest[a,:,:,0]*stdtest[a]+mtest[a]-3,s=10)
+#plt.xlabel('real temperature')
+#plt.ylabel('predicted temperature')
+#plt.plot([18,20.5],[18,20.5])
+#plt.show()
 
-#%%
-def rmse(predictions, targets):
-    return np.sqrt(((predictions - targets) ** 2).mean())
-Rmse=rmse(Outcorr,ytest[:,:,:,0])
+#%% Rmse function and own one, to do it differently
+#def rmse(predictions, targets):
+#    return np.sqrt(((predictions - targets) ** 2).mean())
+#Rmse=rmse(Outcorr,ytest[:,:,:,0])
 
-Sum=0
-n=0
-for a in range(207):
-    for i in range(64):
-        for j in range(64):
-            if(xtest[a,i,j,0]!=0):
-                Sum=Sum+(Out[a,i,j]-ytest[a,i,j,0])**2
-                n=n+1
-Rmse=np.sqrt(Sum/n)
+#Sum=0
+#n=0
+#for a in range(207):
+#    for i in range(64):
+#        for j in range(64):
+#            if(xtest[a,i,j,0]!=0):
+#                Sum=Sum+(Out[a,i,j]-ytest[a,i,j,0])**2
+#                n=n+1
+#Rmse=np.sqrt(Sum/n)
